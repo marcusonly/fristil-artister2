@@ -122,7 +122,7 @@ const SOC=[['spotify','Spotify'],['instagram','Instagram'],['tiktok','TikTok'],[
 function mailto(a){return 'mailto:'+D.contact.email+'?subject='+encodeURIComponent('Booking: '+a.name)}
 
 function header(){
-  return '<header class="top"><a class="brand" href="#">Fristil Live<small>Artister for booking</small></a><div class="topr"><span><b>'+esc(D.contact.name)+'</b> · '+esc(D.contact.title)+'</span><span>'+esc(D.contact.email)+' · '+esc(D.contact.phone)+'</span></div></header>';
+  return '<header class="top">'+(canEdit?'<a class="brand" href="#">':'<span class="brand">')+'Fristil Live<small>Artister for booking</small>'+(canEdit?'</a>':'</span>')+'<div class="topr"><span><b>'+esc(D.contact.name)+'</b> · '+esc(D.contact.title)+'</span><span>'+esc(D.contact.email)+' · '+esc(D.contact.phone)+'</span></div></header>';
 }
 function footer(){return '<footer><span><b>Fristil Live</b> · Fristil Records</span><span>Booking: '+esc(D.contact.email)+' · '+esc(D.contact.phone)+'</span></footer>'}
 function adminbar(){
@@ -137,7 +137,7 @@ function artistView(a){
   const soc=SOC.filter(([k])=>a.socials[k]&&k!=='spotify').map(([k,l])=>'<a href="'+esc(a.socials[k])+'" target="_blank" rel="noopener">'+ICON[k]+l+'</a>').join('');
   const press=a.press.length?'<section class="sec"><p class="lbl">Pressebilder</p><div class="press">'+a.press.map((p,i)=>'<button type="button" data-zoom="'+i+'" aria-label="Vis pressebilde '+(i+1)+' stort"><img src="'+p+'" alt="'+esc(a.name)+', pressebilde '+(i+1)+'" loading="lazy"></button>').join('')+'</div></section>':'';
   const linkBox=canEdit?'<div class="copyline"><span class="note">Lenke til denne siden:</span>'+(D.url?'<code>'+esc(pageLink(a))+'</code><button class="btn small" data-act="copy">'+(copied===a.slug?'Kopiert':'Kopier lenke')+'</button>':'<span class="note">settes når siden er publisert</span>')+'</div>':'';
-  return header()+adminbar()+'<a class="back" href="#">← Alle artister</a>'+
+  return header()+adminbar()+(canEdit?'<a class="back" href="#">← Alle artister</a>':'')+
   '<article class="hero">'+cover(a,'img')+'<div class="info"><h1>'+esc(a.name)+'</h1>'+(a.tag?'<p class="tg">'+esc(a.tag)+'</p>':'')+
   '<div class="ctas"><a class="btn primary" href="'+mailto(a)+'">Book '+esc(a.name)+'</a>'+(a.socials.spotify?'<a class="btn" href="'+esc(a.socials.spotify)+'" target="_blank" rel="noopener">'+ICON.spotify+' Lytt på Spotify</a>':'')+'</div>'+
   (soc?'<div class="soc">'+soc+'</div>':'')+
